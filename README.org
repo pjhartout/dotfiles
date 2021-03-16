@@ -20,4 +20,4 @@
 #+STARTUP: latexpreview
 #+LATEX_COMPILER: pdflatexorg-mode restarted
 
-This is the repository comprising all of my dotfiles.
+This is the repository comprising all of my dotfiles. I explain some of the choices I've made in this [[https://pjhartout.github.io/post/dotfiles/][blog post]].
