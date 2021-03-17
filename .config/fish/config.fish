@@ -2,7 +2,7 @@
 # STARTUP #
 function fish_greeting
     # Show system info
-    neofetch
+    pfetch
 end
 
 set PATH $PATH /home/pjh/.poetry/bin/
