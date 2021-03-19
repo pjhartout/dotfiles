@@ -44,7 +44,7 @@ alias lt='exa -aT --color=always --group-directories-first' # tree listing
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
-alias cgcc='rm -rf ~/.cache/google-chrome/Default/'
+alias cgcc='rm -rf ~/.cache/google-chrome/'
 
 
 # # wakatime for fish
