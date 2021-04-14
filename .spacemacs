@@ -90,13 +90,14 @@ This function should only modify configuration layer settings."
           org-projectile-file "TODOs.org")
 
      ;; Rust
+     ;; Useful for .toml files
      rust
 
      ;; yaml
      yaml
 
      ;; Docker
-     docker
+     (docker :variables docker-dockerfile-backend 'lsp)
 
      ;; language templates
      templates
