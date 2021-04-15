@@ -34,12 +34,6 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layers
    '(
      ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-
-     ;; ----------------------------------------------------------------
      ;; Language layers
      ;; ----------------------------------------------------------------
      ;; Python
@@ -169,6 +163,16 @@ This function should only modify configuration layer settings."
 
      ;; Editing
      multiple-cursors
+
+     ;; macOS
+     (osx :variables osx-command-as       'hyper
+          osx-option-as        'meta
+          osx-control-as       'control
+          osx-function-as      nil
+          osx-right-command-as 'left
+          osx-right-option-as  'left
+          osx-right-control-as 'left
+          osx-swap-option-and-command t)
      )
 
    ;; List of additional packages that will be installed without being wrapped
