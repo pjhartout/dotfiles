@@ -37,7 +37,8 @@ This function should only modify configuration layer settings."
      ;; Language layers
      ;; ----------------------------------------------------------------
      ;; Python
-     (python :variables python-backend 'lsp
+     (python :variables python-poetry-activate t
+             python-backend 'lsp
              python-lsp-server 'pyls
              python-formatter 'black
              python-format-on-save t
@@ -144,7 +145,8 @@ This function should only modify configuration layer settings."
      ;; Others
      ;; ----------------------------------------------------------------
      ;; Shell
-     (shell :variables shell-default-term-shell "/bin/bash")
+     (shell :variables shell-default-term-shell "/bin/zsh"
+            shell-default-shell 'shell)
      shell-scripts
      ;; Searching and indexing of files
      ivy
@@ -183,7 +185,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(beacon)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -615,13 +617,17 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (add-hook 'after-init-hook #'global-emojify-mode)
-  (setenv "WORKON_HOME" "/home/pjh/.pyenv")
+  (setenv "WORKON_HOME" "~/")
 
   ;; Enable treemacs by default
-  (add-hook 'emacs-startup-hook 'treemacs)
+  ;; (add-hook 'emacs-startup-hook 'treemacs)
 
   ;; Enable fancy-battery-mode by default
   (add-hook 'after-init-hook 'fancy-battery-mode)
+  (require 'ob-python)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)))
   )
 
 (defun dotspacemacs/user-load ()
@@ -681,6 +687,17 @@ before packages are loaded."
     (setq org-agenda-tags-column (- 4 (window-width)))
     (org-agenda-align-tags))
 
+  ;; src block indentation / editing / syntax highlighting
+  (setq org-src-fontify-natively t
+        org-src-window-setup 'current-window ;; edit in current window
+        org-src-strip-leading-and-trailing-blank-lines t
+        org-src-preserve-indentation t ;; do not put two spaces on the left
+        org-src-tab-acts-natively t
+        org-edit-src-content-indentation 0
+        org-confirm-babel-evaluate nil
+        )
+
+
   ;; Disable eyebrowse minor mode keys to prevent remapping of random keys
   (assq-delete-all 'eyebrowse-mode minor-mode-map-alist)
 
@@ -693,6 +710,12 @@ before packages are loaded."
 
   ;; We want the default key binding of org-refile to work so we disable this weird minor mode
   (assq-delete-all 'eyebrowse-mode minor-mode-map-alist)
+
+  (add-hook 'term-mode-hook 'spacemacs/toggle-truncate-lines-on)
+
+  ;; font effects handling in org mode
+  ;; (org-fontify-emphasized-text t)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -729,7 +752,7 @@ This function is called at the very end of Spacemacs initialization."
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
  '(package-selected-packages
-   '(yaml-mode insert-shebang flycheck-bashate fish-mode company-shell web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data add-node-modules-path toml-mode ron-mode racer helm-gtags flycheck-rust cargo rust-mode csv-mode emojify solarized-theme wakatime-mode jedi virtualenv virtualenvwrapper yapfify xcscope stickyfunc-enhance sphinx-doc pytest py-isort pippel pyvenv pip-requirements live-py-mode deferred ggtags dash-functional cython-mode counsel-gtags company blacken pythonic mu4e-views swiper ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons all-the-icons memoize spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils pkg-info epl elisp-slime-nav editorconfig dumb-jump dash s dired-quick-sort devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg dotenv-mode diminish bind-map bind-key async))
+   '(exec-path-from-shell yaml-mode insert-shebang flycheck-bashate fish-mode company-shell web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data add-node-modules-path toml-mode ron-mode racer helm-gtags flycheck-rust cargo rust-mode csv-mode emojify solarized-theme wakatime-mode jedi virtualenv virtualenvwrapper yapfify xcscope stickyfunc-enhance sphinx-doc pytest py-isort pippel pyvenv pip-requirements live-py-mode deferred ggtags dash-functional cython-mode counsel-gtags company blacken pythonic mu4e-views swiper ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons all-the-icons memoize spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-superstar open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck flycheck-elsa flx-ido flx fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens evil-args evil-anzu anzu eval-sexp-fu emr iedit clang-format projectile paredit list-utils pkg-info epl elisp-slime-nav editorconfig dumb-jump dash s dired-quick-sort devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg dotenv-mode diminish bind-map bind-key async))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(wakatime-python-bin nil))
 (custom-set-faces
@@ -737,6 +760,5 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((((class color) (min-colors 257)) nil) (((class color) (min-colors 89)) (:background "#1c1c1c" :foreground "#eeeeee")))))
-
+ '(default ((((class color) (min-colors 89)) (:foreground "#8d9fa1" :background "#002732")))))
 )
