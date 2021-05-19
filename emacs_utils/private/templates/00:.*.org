@@ -19,15 +19,14 @@
 #+TODO: TODO IN-PROGRESS WAITING | DONE CANCELED
 #+STARTUP: latexpreview
 #+LATEX_COMPILER: pdflatexorg-mode restarted
-* Header 1 [%]
-** header 2
-+ Unordered list
+* Goals
+* Set up
   #+begin_src elisp :results silent
-(pyvenv-activate "~/path/to/virtualenvs/venv-name/")
-  #+end_src
+(pyvenv-activate "~/Library/Caches/pypoetry/virtualenvs/nlp-embeddings-mhcii-0XvYKQyE-py3.8/")
+#+end_src
 
 #+begin_src python
 # Shows in the results of the org file
 def return_obj(obj):
     return obj
-#+end_src
+    #+end_src
